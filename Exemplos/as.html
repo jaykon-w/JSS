@@ -38,7 +38,7 @@ function initialCSS($color){
 			},
 			'.level0':{
 				'& li':{
-					'-webkit-transition' : '1000ms',
+					'#-transition' : '1000ms',
 					'font-family' : 'Arial',
 					'text':{
 						'align': 'center',
@@ -66,7 +66,7 @@ function initialCSS($color){
 					'width': ((contentWidth/lis) - 2) >>> 0,
 					'color': JSS.Desaturate(JSS.Ligthen(MainColor, 55), 20),
 					'&:hover':{
-						'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -15)+' 0%,'+JSS.Ligthen(MainColor, 25)+' 100%)',
+						'background': '#-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -15)+' 0%,'+JSS.Ligthen(MainColor, 25)+' 100%)',
 						'& .seta':{
 							color: JSS.Desaturate(JSS.Ligthen(MainColor, -20), 20),
 						},
@@ -75,7 +75,7 @@ function initialCSS($color){
 						},
 					},
 					'&:active':{
-						'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -5)+' 0%,'+JSS.Ligthen(MainColor, 35)+' 100%)',
+						'background': '#-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -5)+' 0%,'+JSS.Ligthen(MainColor, 35)+' 100%)',
 					},
 				},
 				'& > li':{
@@ -88,13 +88,13 @@ function initialCSS($color){
 						}
 					},
 					'float' : 'left',
-					'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Ligthen(MainColor, 20)+' 100%)',
+					'background': '#-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Ligthen(MainColor, 20)+' 100%)',
 				}
 			},
 			'.level1':{
 				display: 'none',
 				position: 'absolute',
-				background: '-webkit-linear-gradient(top, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Desaturate(JSS.Ligthen(MainColor, -10), 20)+' 100%)',
+				background: '#-linear-gradient(top, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Desaturate(JSS.Ligthen(MainColor, -10), 20)+' 100%)',
 				'box-shadow': '#000 0px 3px 8px',
 				'& > li':{
 					'border' : {
