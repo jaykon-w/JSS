@@ -1,0 +1,190 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<!--<link href="alternate.css" rel="stylesheet" type="text/css">-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="text/javascript" src="../JSS.js"></script>
+<script>
+
+function initialCSS($color){ 
+	var MainColor = JSS.Saturate($color, 30);
+	var contentWidth = 1000;
+	var lis = JSS.$('.level0 li').length - JSS.$('.level1 li').length;
+	
+	var config = function(pd){
+		return {padding: pd}
+	};
+	var roundMenu = function(side){
+		eval("var rt = {'border-top-"+side+"-radius': 30,'border-bottom-"+side+"-radius': 30}");
+		return rt;
+	}
+	
+	CSS = new JSS({
+		init:{
+			"body":{
+				'background' : JSS.Ligthen(MainColor, 90)
+			},
+			"#main" : {
+				'width' : contentWidth,
+				'$import' : ['center',config(5)],
+				'border' : JSS.Ligthen(MainColor, -50)+' solid 1px',
+				'& footer':{
+					'background': '#ccc',
+				}
+			},
+			'ul' : {
+				'margin': 0,
+				'padding': 0,
+			},
+			'.level0':{
+				'& li':{
+					'-webkit-transition' : '1000ms',
+					'font-family' : 'Arial',
+					'text':{
+						'align': 'center',
+						'shadow' : 'rgba(0,0,0,0.8) 0px -1px 0px',
+					},
+					'display': 'block',
+					//'outline': 'none',
+					"list-style" : 'none',
+					'border' : {
+						'style': 'solid',
+						'width': 1,
+						'color': JSS.Ligthen(MainColor, 20),
+						'right': {
+							'color' : JSS.Ligthen(MainColor, -30)
+						},
+						'bottom': {
+							'color': JSS.Ligthen(MainColor, -40)
+						}
+					},
+					//'border': JSS.Ligthen(MainColor, 20)+' solid 1px',
+					//'border-right': JSS.Ligthen(MainColor, -30)+' solid 1px',
+					//'border-bottom': JSS.Ligthen(MainColor, -40)+' solid 1px',
+					//'position': 'relative',
+					'line-height': 40,
+					'width': ((contentWidth/lis) - 2) >>> 0,
+					'color': JSS.Desaturate(JSS.Ligthen(MainColor, 55), 20),
+					'&:hover':{
+						'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -15)+' 0%,'+JSS.Ligthen(MainColor, 25)+' 100%)',
+						'& .seta':{
+							color: JSS.Desaturate(JSS.Ligthen(MainColor, -20), 20),
+						},
+						'& .level1':{
+							display: 'block'
+						},
+					},
+					'&:active':{
+						'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -5)+' 0%,'+JSS.Ligthen(MainColor, 35)+' 100%)',
+					},
+				},
+				'& > li':{
+					'&:nth-':{
+						'&child(1)':{
+							'$import': roundMenu('left')
+						},
+						'&last-child(1)':{
+							'$import': roundMenu('right')
+						}
+					},
+					'float' : 'left',
+					'background': '-webkit-linear-gradient(bottom, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Ligthen(MainColor, 20)+' 100%)',
+				}
+			},
+			'.level1':{
+				display: 'none',
+				position: 'absolute',
+				background: '-webkit-linear-gradient(top, '+JSS.Ligthen(MainColor, -30)+' 0%,'+JSS.Desaturate(JSS.Ligthen(MainColor, -10), 20)+' 100%)',
+				'box-shadow': '#000 0px 3px 8px',
+				'& > li':{
+					'border' : {
+						'style': 'solid',
+						'width': 1,
+						'color': JSS.Desaturate(JSS.Ligthen(MainColor, 0), 25),
+						'right': {
+							'color' : JSS.Ligthen(MainColor, -30)
+						},
+						'bottom': {
+							'color': JSS.Ligthen(MainColor, -40)
+						}
+					},
+				},
+				'&, .level1 > li':{
+					'&:nth-':{
+						'&last-child(1)':{
+							'border-bottom-left-radius': 15,
+							'border-bottom-right-radius': 15
+						}
+					}
+				},
+			},
+			"p:nth-child(2n+1)":{
+				'color': 'white',
+			},
+			".seta":{
+				position: 'relative',
+				float: 'right',
+				width: 20,
+				color: JSS.Desaturate(JSS.Ligthen(MainColor, -15), 20),
+				text:{
+					shadow: JSS.Ligthen(MainColor, 15)+' 1px 1px 1px',
+					align: 'center'
+				},
+				border:{
+					left: JSS.Ligthen(MainColor, -15)+' solid 1px'
+				}
+			}
+		}
+	});
+}
+</script>
+<title>Documento sem título</title>
+</head>
+
+<body onLoad="initialCSS('#933')">
+
+<div id="main">
+
+    <header>
+    	<nav>
+            <ul class="level0">
+                <li>Home</li>
+                <li>Contatos</li>
+                <li>Quem Somos<span class="seta">&#9660;</span>
+                	<ul class="level1">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                    </ul>
+                </li>
+                <li>Sobre a Empresa</li>
+                <li>Valores<span class="seta">&#9660;</span>
+                	<ul class="level1">
+                        <li>Item 1</li>
+                        <li>Item 2</li>
+                        <li>Item 3</li>
+                        <li>Item 4</li>
+                        <li>Item 5</li>
+                        <li>Item 6</li>
+                    </ul>
+                </li>
+                <li>Faça Parte</li>
+            </ul>
+        </nav>
+    </header>
+    <aside id="leftPanel">
+        menu lateral
+    </aside>
+    <section>
+        <article id="conteudo">
+        	Conteudo
+        </article>
+        
+    </section>
+    <footer>
+    	A JSS&copy; é um framework desenvolvido por <a>Jaykon W. Oliveira</a>.
+    </footer>
+</div>
+<div class="caixa"></div>
+</body>
+</html>
