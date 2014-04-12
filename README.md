@@ -167,8 +167,9 @@ Em JSS, também é possivel importar funções para seu objeto de estilo princip
 		if(shadow === true){
 			estilo.push({'box-shadow': '#000 3px 3px 5px'});
 		}
-		return estilo
-		};
+		
+		return estilo;
+		
 	},
 	
 	style: function(){
