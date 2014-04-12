@@ -128,4 +128,55 @@ Em JSS tanto os seletores quanto as propriedades podem ser aninhadas. Para selet
 	 * 	font-weight: bold;
 	 * }
 	 */
+É importante entender como é feito o parser dos objetos em JSS, todo aninhamento, seja ele de seletor ou de propriedade, é feito por meio de concatenação de strings, dessa forma deve se entender onde e quando aplicar espaços ou não após o `&`. Veja o exemplo a seguir:
 
+<!-- language: lang-js -->
+	'table':{
+		'&tr':{
+			...
+		}
+	}
+Observem que o seletor aninhado `&tr` não tem espaço após o `&`, isso geraria um seletor `tabletr{...}` que não representaria a real intenção do usuário. Para que a JSS gerasse um seletor corretamente, deve-se aplicar o espaço após o `&` dessa maneira `& tr` concatenaria com `table` dessa forma: `"table"+" tr"`, que dessa vez geraria o seletor esperado: `table tr{...}`.
+Em propriedades, o uso do caracter `&` sozinho, faz com que o valor passado se aplique à propriedade a cima de forma única. No exemplo
+
+<!-- language: lang-js -->
+	'border': {
+		'&': '#ccc solid 1px'
+	}
+Gera a saída: `border: #ccc solid 1px`.
+
+<!-- language: lang-js -->
+	'border': {
+		'radius': 5
+	}
+Gera a saída: `border-radius: 5px`
+
+Todo inteiro passado como valor é convertido para a unidade de pexel `px`, dessa maneira o exemplo a cima `'radius': 5` é convertido em `5px`, para unidades diferentes é necessario que se passe o valor por string: `'radius': '1em'`. em propriedades que não são relacionadas a medida, como é o caso da propriedade `z-index` o valor desse explicitamente ser passado por string, para que não seja convertido em `px`, dessa forma `'z-index': '2'` é convertido da maneira esperada.
+
+## Funções
+
+Em JSS, também é possivel importar funções para seu objeto de estilo principal por meio da propriedade `'$import': [this.func()]`, as funções devem retornar um objeto JSON de estilo ou um array de objetos.
+
+<!-- language: lang-js -->
+	bordaJanela: function(rounded, shadow){
+		var estilo = [];
+		
+		if(rounded === true){
+			estilo.push({'border-radius': 5});
+		}
+		if(shadow === true){
+			estilo.push({'box-shadow': '#000 3px 3px 5px'});
+		}
+		return estilo
+		};
+	},
+	
+	style: function(){
+		return {
+			'.window':{
+				'$import': [this.bordaJanela(true, true)]
+			}
+		}
+	}
+	
+Mais de uma função também pode ser chamada por `$import` pasando o array: `'$import': [this.func1(), this.func2, ...]`.
