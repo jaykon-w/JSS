@@ -1,4 +1,4 @@
-JSS
+JSS - Javascript Style Sheet
 ===
 
 # Introdução
