@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/pygment_trac.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print" />
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+
+    <title>JSS by jaykon-w</title>
+  </head>
+
+  <body>
+    <header>
+      <div class="inner">
+        <h1>JSS</h1>
+        <h2>Javascript Style Sheet</h2>
+        <a href="https://github.com/jaykon-w/JSS" class="button"><small>View project on</small>GitHub</a>
+      </div>
+    </header>
+
+    <div id="content-wrapper">
+      <div class="inner clearfix">
+        <section id="main-content">
+          <h1>
+<a name="jss---javascript-style-sheet" class="anchor" href="#jss---javascript-style-sheet"><span class="octicon octicon-link"></span></a>JSS - Javascript Style Sheet</h1>
+
+<h1>
+<a name="introdu%C3%A7%C3%A3o" class="anchor" href="#introdu%C3%A7%C3%A3o"><span class="octicon octicon-link"></span></a>Introdução</h1>
+
+<hr><p>JSS é um framework javascript, que trabalha com CSS. Seguindo o modelo já bem sucedido de outros frameworks como SASS e LESS, a JSS traz também a alternativas para se dar um maior poder ao CSS.</p>
+
+<h2>
+<a name="diferencial" class="anchor" href="#diferencial"><span class="octicon octicon-link"></span></a>Diferencial</h2>
+
+<p>A grande diferença da JSS em comparação aos outros frameworks, é que ela não introduz uma nova linguagem, e nem precisa de um compilador para gerar as folhas de estilo, é todo o poder do javascript agora escrevendo CSS de maneira simples e prática. Além disso, JSS introduz o conceito de tratamento de imagens, onde é possível utilizar de diversas funções para tratar as cores de uma imagem. Isso é muito eficiente para bibliotecas de ícones, é possível modificar a cor dos ícones com apenas alguns métodos.</p>
+
+<hr><h2>
+<a name="o-b%C3%A1sico" class="anchor" href="#o-b%C3%A1sico"><span class="octicon octicon-link"></span></a>O Básico</h2>
+
+<p>O objeto JSS principal, deve invocar a propriedade <code>init</code>, passando um objeto JSON que contenha toda a instrução:</p>
+
+
+
+<pre><code>var build = function(){
+    return new JSS({
+            init: {
+                '#divID':{
+                    'border': {
+                        '&amp;': '#ddd solid 1px',
+                        'top':{
+                                'left':{
+                                    'radius': 35
+                                }
+                        },
+                        'bottom':{
+                                'left':{
+                                    'radius': 35
+                                }
+                        }
+                }
+            }
+        }
+    });
+}
+</code></pre>
+
+<p>A propriedade <code>init</code> é que ficará responsável por fazer o parser do objeto JSON. Porem a maneira mais eficaz não é passar diretamente o objeto JSON no <code>init</code>, e sim criar uma objeto global com uma função de build e outra de style:</p>
+
+<pre><code>var CSS = {
+
+    black: '#000',
+    white: '#fff',
+
+    style: function(){
+
+
+        return {
+            '.super-head': {
+                'background': '#-linear-gradient(top, \
+                                '+JSS.Ligthen(this.black, 20).alpha(.8)+' 0%, \
+                                '+JSS.Ligthen(this.black, 50).alpha(0)+' 100%)',
+                'height': 200,
+                'width': '100%',
+                'overflow': 'hidden',
+                '&amp; &gt; header':{
+                    '&amp; &gt; img':{
+                        'position': 'absolute',
+                        'left': 'calc(100% - 254px)',
+                        'z-index': '100',
+                        'top': 10,
+                        'background': this.white,
+                        'padding-left': 10,
+                        'border': {
+                            '&amp;': '#ddd solid 1px',
+                            'top':{
+                                'left':{
+                                    'radius': 35
+                                }
+                            },
+                            'bottom':{
+                                'left':{
+                                    'radius': 35
+                                }
+                            }
+                        },
+                        'box-shadow': '#333 3px 5px 3px',
+                    }
+                }
+            }
+        }
+    },
+
+    build: function(){
+        return new JSS({
+            init: this.style()
+        })
+    }
+}
+CSS.build();
+</code></pre>
+
+<p>Dessa maneira é possível criar propriedades no objeto CSS e chama-las no método style por meio do scopo local <code>this</code>.</p>
+
+<h2>
+<a name="seletores-e-propriedades-aninhadas" class="anchor" href="#seletores-e-propriedades-aninhadas"><span class="octicon octicon-link"></span></a>Seletores e propriedades aninhadas</h2>
+
+<p>Em JSS tanto os seletores quanto as propriedades podem ser aninhadas. Para seletores é usado o caractere <code>&amp;</code> para aninha-los, já com as propriedades não é necessário:</p>
+
+
+
+<pre><code>'table':{
+    '&amp; tr':{
+        'padding':{
+            'top': 5,
+            'bottom': 5
+        },
+        '&amp; td':{
+            '&amp;(1)':{    
+                'font-weight': 'bold'
+            }
+        }
+    },
+    'border': {
+        '&amp;': '#ccc solid 1px',
+        'radius': 5
+    }
+}
+/*
+ * Saida:
+ * table {
+ *  border: '#ccc solid 1px';
+ *  border-radius: 5px;
+ * }
+ * 
+ * table tr {
+ *  padding-top: 5px;
+ *  padding-bottom: 5px;
+ * }
+ * 
+ * table tr td:nth-child(1){
+ *  font-weight: bold;
+ * }
+ */
+</code></pre>
+
+<p>É importante entender como é feito o parser dos objetos em JSS, todo aninhamento, seja ele de seletor ou de propriedade, é feito por meio de concatenação de strings, dessa forma deve se entender onde e quando aplicar espaços ou não após o <code>&amp;</code>. Veja o exemplo a seguir:</p>
+
+
+
+<pre><code>'table':{
+    '&amp;tr':{
+        ...
+    }
+}
+</code></pre>
+
+<p>Observem que o seletor aninhado <code>&amp;tr</code> não tem espaço após o <code>&amp;</code>, isso geraria um seletor <code>tabletr{...}</code> que não representaria a real intenção do usuário. Para que a JSS gerasse um seletor corretamente, deve-se aplicar o espaço após o <code>&amp;</code> dessa maneira <code>&amp; tr</code> concatenaria com <code>table</code> dessa forma: <code>"table"+" tr"</code>, que dessa vez geraria o seletor esperado: <code>table tr{...}</code>.
+Em propriedades, o uso do caracter <code>&amp;</code> sozinho, faz com que o valor passado se aplique à propriedade a cima de forma única. No exemplo</p>
+
+
+
+<pre><code>'border': {
+    '&amp;': '#ccc solid 1px'
+}
+</code></pre>
+
+<p>Gera a saída: <code>border: #ccc solid 1px</code>.</p>
+
+
+
+<pre><code>'border': {
+    'radius': 5
+}
+</code></pre>
+
+<p>Gera a saída: <code>border-radius: 5px</code></p>
+
+<p>Todo inteiro passado como valor é convertido para a unidade de pexel <code>px</code>, dessa maneira o exemplo a cima <code>'radius': 5</code> é convertido em <code>5px</code>, para unidades diferentes é necessario que se passe o valor por string: <code>'radius': '1em'</code>. em propriedades que não são relacionadas a medida, como é o caso da propriedade <code>z-index</code> o valor desse explicitamente ser passado por string, para que não seja convertido em <code>px</code>, dessa forma <code>'z-index': '2'</code> é convertido da maneira esperada.</p>
+
+<h2>
+<a name="fun%C3%A7%C3%B5es" class="anchor" href="#fun%C3%A7%C3%B5es"><span class="octicon octicon-link"></span></a>Funções</h2>
+
+<p>Em JSS, também é possivel importar funções para seu objeto de estilo principal por meio da propriedade <code>'$import': [this.func()]</code>, as funções devem retornar um objeto JSON de estilo ou um array de objetos.</p>
+
+
+
+<pre><code>bordaJanela: function(rounded, shadow){
+    var estilo = [];
+
+    if(rounded === true){
+        estilo.push({'border-radius': 5});
+    }
+    if(shadow === true){
+        estilo.push({'box-shadow': '#000 3px 3px 5px'});
+    }
+
+    return estilo;
+
+},
+
+style: function(){
+    return {
+        '.window':{
+            '$import': [this.bordaJanela(true, true)]
+        }
+    }
+}
+</code></pre>
+
+<p>Mais de uma função também pode ser chamada por <code>$import</code> pasando o array: <code>'$import': [this.func1(), this.func2, ...]</code>.</p>
+
+<h2>
+<a name="cores" class="anchor" href="#cores"><span class="octicon octicon-link"></span></a>Cores</h2>
+
+<p>A Subclasse <code>JSS.Color</code> traz diversas funções para manipulação de cores, para usar a classe JSS.Color é preciso inicia-la passando uma cor ao construtor, com qualquer formato de cor aceita pela CSS.</p>
+
+
+
+<pre><code>new JSS.Color("red");
+new JSS.Color("#f00");
+new JSS.Color("#ff0000");
+new JSS.Color("rgb(255,0,0)");
+new JSS.Color("rgba(255,0,0,1)");
+new JSS.Color("hsl(0,100,50)");
+new JSS.Color("hsla(0,100,50,1)");
+</code></pre>
+
+<p>Todos os formatos a cima resultam na cor vermelha. Após o objeto criado, é possível manipular todos os canais de cores, mesmo que não corresponda ao formato original.</p>
+
+
+
+<pre><code>var vermelho = new JSS.Color("red");
+vermelho.hue(20).green(30).saturation(20).alpha(.4).ligth(10).blue(20);
+</code></pre>
+
+<p>Outras funções que de manipulação de cor também podem ser aplicadas</p>
+
+
+
+<pre><code>var vermelho = new JSS.Color("red");
+vermelho.desaturation(20).dark(20).multiply("blue").screen("#527").overlay("rgb(23,53,132)").mix(vermelho, 20);
+</code></pre>
+
+<p>Também é possivel utilizar o método <code>getDistance(color)</code> da CLasse <code>JSS.Color</code>, que retornará um valor representado a qual diferente(distante) uma cor é da outra.</p>
+
+
+
+<pre><code>var vermelho = new JSS.Color("red");
+vermelho.getDistance("blue"); // Que resultará no valor 360.62445840513925;
+vermelho.getDistance("red");  // Que resultará no valor 0;
+</code></pre>
+
+<p>Também é possivel iniciar as cores pelos metodos staticos.</p>
+
+
+
+<pre><code>var vermelho = JSS.Ligthen("red", 30);
+// E depois se quiser ainda poderá continuar a mexer em seus canais.
+vermelho.alpha(.3);
+// Ou pela forma abreviada.
+JSS.Ligthen("red", 30).alpha(.3);
+</code></pre>
+
+<p>As funções estaticas de Cores são:</p>
+
+
+
+<pre><code>JSS.Ligthen(color, percentLigth);
+JSS.Darken(color, percentDark);
+JSS.GetDistanceColor(color1, color2);
+JSS.Mix(color1, color2, weight);
+JSS.Multiply(color1, color2);
+JSS.SCreen(color1, color2);
+JSS.Overlay(color1, color2);
+JSS.Defference(color1, color2);
+JSS.Saturate(color, percent);
+JSS.Desaturate(color, percent);
+</code></pre>
+
+<h1>
+<a name="css-hack" class="anchor" href="#css-hack"><span class="octicon octicon-link"></span></a>CSS Hack</h1>
+
+<p>Ao adicionar os caracteres <code>#-</code> ao inicio de uma propriedade ou valor, JSS interpretará esses caracteres como um CSS hack, como no exemplo a seguir:</p>
+
+
+
+<pre><code>'.gradient': {
+    'background': '#-linear-gradient(top, \
+                    '+JSS.Ligthen(this.black, 20).alpha(.8)+' 0%, \
+                    '+JSS.Ligthen(this.black, 50).alpha(0)+' 100%)',
+}
+</code></pre>
+
+<p>Saida:</p>
+
+
+
+<pre><code>.gradient {
+    background: linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+    background: -o-linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+    background: -ms-linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+    background: -moz-linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+    background: -khtml-linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+    background: -webkit-linear-gradient(top, rgba(51,51,51,0.8) 0%, rgba(128,128,128,0) 100%);
+}
+</code></pre>
+        </section>
+
+        <aside id="sidebar">
+          <a href="https://github.com/jaykon-w/JSS/zipball/master" class="button">
+            <small>Download</small>
+            .zip file
+          </a>
+          <a href="https://github.com/jaykon-w/JSS/tarball/master" class="button">
+            <small>Download</small>
+            .tar.gz file
+          </a>
+
+          <p class="repo-owner"><a href="https://github.com/jaykon-w/JSS"></a> is maintained by <a href="https://github.com/jaykon-w">jaykon-w</a>.</p>
+
+          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
+        </aside>
+      </div>
+    </div>
+
+  
+  </body>
+</html>
