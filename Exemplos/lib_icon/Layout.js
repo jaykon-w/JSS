@@ -1,5 +1,5 @@
 var CSS = {
-
+	
 		icones: [
 			new JSS.Image('figure_7.png')
 		],
@@ -25,7 +25,7 @@ var CSS = {
 				inc = 0;
 			
 			for(a = 0; a <= v; a++){	
-				for(i = 0; i <= h - span; i++){
+				for(i = 0; i < h; i++){
 					icons['&.icon-'+inc] = {
 						'background-position': {
 							x: ~((i*size)+span),
