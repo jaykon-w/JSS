@@ -267,7 +267,7 @@ Para tartar as imagens usamos a subcçasse `JSS.Image`, ao usar dessa classe o m
 
 Veja um exemplo completo de como criar uma biblioteca de ícones de duas cores diferentes apartir de um Sprite.
 
-<figure_7.png>
+figure_7.png
 > ![figure_7.png](https://github.com/jaykon-w/JSS/blob/master/Exemplos/lib_icon/figure_7.png?raw=true)
 
 
