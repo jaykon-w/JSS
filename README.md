@@ -271,6 +271,7 @@ figure_7.png
 > ![figure_7.png](https://github.com/jaykon-w/JSS/blob/master/Exemplos/lib_icon/figure_7.png?raw=true)
 
 
+Layout.js
 ```js
 var CSS = {
 	
@@ -340,4 +341,34 @@ var CSS = {
 	
 };
 ```
-
+icon-sample.html
+```html
+<html>
+<head>
+	<script src="../../JSS.js"></script>
+	<script src="Layout.js"></script>
+</head>
+<body onload="CSS.build()">
+	<i class="icon-red icon-0 left"></i> <i class="icon-yellow icon-0 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-1 left"></i> <i class="icon-yellow icon-1 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-2 left"></i> <i class="icon-yellow icon-2 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-3 left"></i> <i class="icon-yellow icon-3 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-4 left"></i> <i class="icon-yellow icon-4 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-5 left"></i> <i class="icon-yellow icon-5 left"></i>
+	<div class="clear"></div>
+	...
+	...
+	...
+	<div class="clear"></div>
+	<i class="icon-red icon-118 left"></i> <i class="icon-yellow icon-118 left"></i>
+	<div class="clear"></div>
+	<i class="icon-red icon-119 left"></i> <i class="icon-yellow icon-119 left"></i>
+	<div class="clear"></div>
+	<div>Esses São alguns dos icones reenderizados pela JSS</div>
+</body>
+</html>
