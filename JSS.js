@@ -11,31 +11,37 @@ JSS.Images = [];
 
 JSS.prototype.Core = function(){
 	var me = this;
+	var interator = 0;
 	
-	if(JSS.Images.length > 0){
-		for(var interator = 0; interator < JSS.Images.length; interator++){
-			while(!JSS.Images[interator].loaded){
-				
+	function waitImageLoad(){
+		if(JSS.Images.length > 0 && JSS.Images.length > interator){
+			if(JSS.Images[interator].loaded){
+				interator++;
 			}
-			continue;
+			setTimeout(waitImageLoad, 300);
+		}else{
+			render();
 		}
 	}
 	
-	var i = this.obj.init;
-	this.stl = JSS.$('#JSS_CORE');
 	
-	if(this.stl.length == 0){
-		document.head.innerHTML += "<style id=\"JSS_CORE\"></style>";
-		this.stl = JSS.$('#JSS_CORE');
-	};
-	
-	//this.stl = this.stl[0].sheet
-	this.stl = this.stl[0]
-	
-	for(key in i){
-		this.Each(i[key], key);
+	function render(){
+		var i = me.obj.init;
+		me.stl = JSS.$('#JSS_CORE');
+		
+		if(me.stl.length == 0){
+			document.head.innerHTML += "<style id=\"JSS_CORE\"></style>";
+			me.stl = JSS.$('#JSS_CORE');
+		};
+		
+		//this.stl = this.stl[0].sheet
+		me.stl = me.stl[0]
+		
+		for(key in i){
+			me.Each(i[key], key);
+		}
 	}
-	
+	waitImageLoad();
 };
 
 JSS.$ = function(selector){
@@ -255,6 +261,7 @@ JSS.isFloat = function(n) {
 JSS.isInt = function(n) {
 	return n===+n && n===(n|0);
 }
+
 
 JSS.prototype.toHsla = function(color){
 	
@@ -1424,7 +1431,7 @@ JSS.Mix = function(color1, color2, weight){
     var newColor = {r:rgba2.r * w1 + rgba1.r * w2,
                		g:rgba2.g * w1 + rgba1.g * w2,
                		b:rgba2.b * w1 + rgba1.b * w2,
-               		a:rgba2.a * p + rgba1.a * (1 - p)};
+               		a:rgba2.a/* * p + rgba1.a * (1 - p)*/};
 
     var Color3 = new JSS.Color(newColor);
 	Color3.format = "rgba";	
@@ -1772,6 +1779,7 @@ JSS.Color = function(color){
 
 JSS.Image = function(uri){
 	
+	
 	var canvas = document.createElement('canvas'),
 		context = canvas.getContext('2d'),
 		me = this;
@@ -1785,9 +1793,9 @@ JSS.Image = function(uri){
 	me.pixelsColor = [];
 	me.imageData = null;
 
+	
 
 	
-		
 	me.img.onload = function(e){
 		me.loaded = true;
 		me.imgWidth = e.target.width;
@@ -1807,7 +1815,7 @@ JSS.Image = function(uri){
 	var RefactoryImageColor = function(func, params){
 		
 		var pixels = me.imageData.data;
-		
+
 		for(i = 0; i < me.pixelsColor.length; i++){
 			var color = me.pixelsColor[i][func](params),
 				loop = i * 4;
@@ -1826,6 +1834,7 @@ JSS.Image = function(uri){
 			pixels[loop+3] = color.a;
 				
 		}
+		
 	}
 	
 	
@@ -1935,5 +1944,4 @@ JSS.Image = function(uri){
 	
 	me.img.src = uri;
 	JSS.Images.push(me);
-	
 }
